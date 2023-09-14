@@ -1,0 +1,17 @@
+{
+  "manifest_version": 3,
+  "name": "PrairieLearn Calendar",
+  "version": "0.1",
+  "description": "Add a calendar to the PL homepage.",
+  "content_scripts": [
+    {
+      "js": [
+        "content.js"
+      ],
+      "matches": [
+        "https://us.prairielearn.com/",
+        "https://us.prairielearn.com/pl"
+      ]
+    }
+  ]
+}
