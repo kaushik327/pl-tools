@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "PrairieLearn Calendar",
+  "name": "PrairieLearn Tools",
   "version": "0.1",
-  "description": "Add a calendar to the PL homepage.",
+  "description": "Adds some extra stuff to the PL homepage.",
   "content_scripts": [
     {
       "js": [

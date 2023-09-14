@@ -1,4 +1,4 @@
-console.log("PL Calendar extension is working!");
+console.log("PL Tools extension is working!");
 const table = document.getElementsByClassName("table-striped")[0]
 const links = table.getElementsByTagName("a");
 var parser = new DOMParser();
