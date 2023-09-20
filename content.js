@@ -21,9 +21,9 @@ for (const a of links) {
             var third_column = td_list[2].innerText.trim();
             if (third_column == "None") continue;
 
-            // var badge = td_list[0].getElementsByClassName("badge")[0];
-            // console.log(badge.innerText);
-            // badge.innerText = a.innerText.split(":")[0] + badge.innerText;
+            var badge = td_list[0].getElementsByClassName("badge")[0];
+            console.log(badge.innerText);
+            badge.innerText = a.innerText.split(":")[0] + "\n" + badge.textContent.trim();
 
             date_pieces = third_column.split(" until ")[1].split(', ');
             date = Date.parse(date_pieces[2] + " " + date_pieces[0]);
