@@ -22,7 +22,6 @@ for (const a of links) {
             if (third_column == "None") continue;
 
             var badge = td_list[0].getElementsByClassName("badge")[0];
-            console.log(badge.innerText);
             badge.innerText = a.innerText.split(":")[0] + "\n" + badge.textContent.trim();
 
             date_pieces = third_column.split(" until ")[1].split(', ');
@@ -35,26 +34,26 @@ for (const a of links) {
     page_promises.push(assignments);
 }
 
-const card = document.createElement("div");
-card.className = "card mb-4";
-document.getElementById("content").append(card);
+const todo_card = document.createElement("div");
+todo_card.className = "card mb-4";
+document.getElementById("content").append(todo_card);
 
-const header = document.createElement("div");
-header.className = "card-header bg-primary text-white d-flex align-items-center";
-header.innerText = "Aggregated Assessments";
-card.append(header);
+const todo_header = document.createElement("div");
+todo_header.className = "card-header bg-primary text-white d-flex align-items-center";
+todo_header.innerText = "To Do";
+todo_card.append(todo_header);
 
-const new_table = document.createElement("table");
-new_table.className = "table table-sm table-hover table-striped";
-card.append(new_table);
+const todo_table = document.createElement("table");
+todo_table.className = "table table-sm table-hover table-striped";
+todo_card.append(todo_table);
 
-const tbody = document.createElement("tbody");
-new_table.append(tbody);
+const todo_tbody = document.createElement("tbody");
+todo_table.append(todo_tbody);
 
 Promise.all(page_promises).then((pages) => {
     sorted_rows = pages.flat();
     sorted_rows.sort();
     for (const info of sorted_rows) {
-        tbody.append(info[1]);
+        todo_tbody.append(info[1]);
     }
 })
