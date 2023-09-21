@@ -27,13 +27,14 @@ for (const a of links) {
             date_pieces = third_column.split(" until ")[1].split(', ');
             date = Date.parse(date_pieces[2] + " " + date_pieces[0]);
 
-            arr.push([date, row]);
+            arr.push([date, row, badge.innerText]);
         }
         return arr;
     });
     page_promises.push(assignments);
 }
 
+// Todo table elements
 const todo_card = document.createElement("div");
 todo_card.className = "card mb-4";
 document.getElementById("content").append(todo_card);
@@ -50,10 +51,52 @@ todo_card.append(todo_table);
 const todo_tbody = document.createElement("tbody");
 todo_table.append(todo_tbody);
 
-Promise.all(page_promises).then((pages) => {
-    sorted_rows = pages.flat();
+// Done table elements
+const done_card = document.createElement("div");
+done_card.className = "card mb-4";
+document.getElementById("content").append(done_card);
+
+const done_header = document.createElement("div");
+done_header.className = "card-header bg-primary text-white d-flex align-items-center";
+done_header.innerText = "Done";
+done_card.append(done_header);
+
+const done_table = document.createElement("table");
+done_table.className = "table table-sm table-hover table-striped";
+done_card.append(done_table);
+
+const done_tbody = document.createElement("tbody");
+done_table.append(done_tbody);
+
+const storage_promise = chrome.storage.sync.get({done: []});
+
+Promise.all(page_promises.concat([storage_promise])).then((results) => {
+    
+    done_assignments = results.pop().done;
+    sorted_rows = results.flat();
     sorted_rows.sort();
+
     for (const info of sorted_rows) {
-        todo_tbody.append(info[1]);
+        let [date, row, label] = info;
+
+        const btn = document.createElement("button");
+        row.prepend(btn);
+
+        if (done_assignments.includes(label)) {
+            done_tbody.append(row);
+        } else {
+            todo_tbody.append(row);
+        }
+
+        btn.addEventListener("click", async () => {
+            const idx = done_assignments.indexOf(label);
+            if (idx == -1) {
+                done_assignments.push(label)
+            } else {
+                done_assignments.splice(idx, 1);
+            }
+            await chrome.storage.sync.set({done: done_assignments});
+            location.reload();
+        })
     }
 })

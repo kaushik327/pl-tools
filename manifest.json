@@ -3,6 +3,9 @@
   "name": "PrairieLearn Tools",
   "version": "0.1",
   "description": "Adds some extra stuff to the PL homepage.",
+  "permissions": [
+    "storage"
+  ],
   "content_scripts": [
     {
       "js": [
