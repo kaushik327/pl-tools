@@ -9,3 +9,6 @@ right now, it's a chrome extension for prairielearn that takes all the course-sp
 3. switch on "Developer mode" in the top-right corner.
 4. click the "Load Unpacked" button and select the `pl-tools` folder.
 5. the extension is loaded! switch it on if it isn't already
+
+## screenshot
+![PrairieLearn homepage with extra tables](screenshot.png)
