@@ -80,6 +80,9 @@ Promise.all(page_promises.concat([storage_promise])).then((results) => {
         let [date, row, label] = info;
 
         const btn = document.createElement("button");
+        btn.className = "btn btn-xs my-0 align-text-bottom btn-outline-primary justify-content-center";
+        btn.textContent = "x";
+        // btn.src = chrome.runtime.getURL("assets/");
         row.prepend(btn);
 
         if (done_assignments.includes(label)) {
