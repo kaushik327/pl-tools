@@ -24,7 +24,9 @@ for (const a of links) {
             var badge = td_list[0].getElementsByClassName("badge")[0];
             badge.innerText = a.innerText.split(":")[0] + "\n" + badge.textContent.trim();
 
-            date_pieces = third_column.split(" until ")[1].split(', ');
+            date_str = third_column.split(" until ")[1];
+            if (date_str === undefined) continue;
+            date_pieces = date_str.split(', ');
             date = Date.parse(date_pieces[2] + " " + date_pieces[0]);
 
             arr.push([date, row, badge.innerText]);
