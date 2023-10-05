@@ -1,5 +1,17 @@
 console.log("PL Tools extension is working!");
-const table = document.getElementsByClassName("table-striped")[0]
+const tables = document.getElementsByClassName("card-header");
+
+var table;
+for (const t of tables) {
+    if (t.childNodes[0].nodeValue.trim() == 'Courses') {
+        table = t.parentElement.getElementsByTagName('table')[0];
+        break;
+    }
+}
+if (table === undefined) {
+    throw new Error("No courses table");
+}
+
 const links = table.getElementsByTagName("a");
 var parser = new DOMParser();
 var page_promises = [];
@@ -17,18 +29,19 @@ for (const a of links) {
             if (th_list.length > 0) continue;
 
             var td_list = row.getElementsByTagName("td")
-            
-            var third_column = td_list[2].innerText.trim();
-            if (third_column == "None") continue;
 
             var badge = td_list[0].getElementsByClassName("badge")[0];
             badge.innerText = a.innerText.split(":")[0] + "\n" + badge.textContent.trim();
 
+            var third_column = td_list[2].innerText.trim();
             date_str = third_column.split(" until ")[1];
-            if (date_str === undefined) continue;
-            date_pieces = date_str.split(', ');
-            date = Date.parse(date_pieces[2] + " " + date_pieces[0]);
-
+            if (date_str === undefined) {
+                // date = Infinity
+                continue;
+            } else {
+                date_pieces = date_str.split(', ');
+                date = Date.parse(date_pieces[2] + " " + date_pieces[0]);
+            }
             arr.push([date, row, badge.innerText]);
         }
         return arr;
