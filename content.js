@@ -1,4 +1,4 @@
-console.log("PL Tools extension is working!");
+console.log("PL Tools extension is working...");
 const tables = document.getElementsByClassName("card-header");
 
 var table;
@@ -36,11 +36,10 @@ for (const a of links) {
             var third_column = td_list[2].innerText.trim();
             date_str = third_column.split(" until ")[1];
             if (date_str === undefined) {
-                // date = Infinity
-                continue;
+                date = Infinity
             } else {
                 date_pieces = date_str.split(', ');
-                date = Date.parse(date_pieces[2] + " " + date_pieces[0]);
+                date = Date.parse(date_pieces[2] + " " + new Date().getFullYear() + " " + date_pieces[0]);
             }
             arr.push([date, row, badge.innerText]);
         }
@@ -94,15 +93,20 @@ Promise.all(page_promises.concat([storage_promise])).then((results) => {
     for (const info of sorted_rows) {
         let [date, row, label] = info;
 
+        const calbtn = document.createElement("button");
+        calbtn.className = "btn btn-xs my-0 align-text-bottom btn-outline-primary justify-content-center";
+        calbtn.textContent = "🗓️";
+        row.prepend(calbtn);
+
         const btn = document.createElement("button");
         btn.className = "btn btn-xs my-0 align-text-bottom btn-outline-primary justify-content-center";
-        btn.textContent = "x";
-        // btn.src = chrome.runtime.getURL("assets/");
         row.prepend(btn);
 
         if (done_assignments.includes(label)) {
+            btn.textContent = "❌";
             done_tbody.append(row);
         } else {
+            btn.textContent = "✅";
             todo_tbody.append(row);
         }
 
@@ -115,6 +119,17 @@ Promise.all(page_promises.concat([storage_promise])).then((results) => {
             }
             await chrome.storage.sync.set({done: done_assignments});
             location.reload();
+        })
+
+        calbtn.addEventListener("click", async () => {
+            // Using ics.js from https://github.com/nwcell/ics.js/
+
+            var cal = ics();
+            var row_elements = row.getElementsByTagName("td");
+            const title = row_elements[1].innerText;
+            const description = row_elements[2].innerText;
+            cal.addEvent(title, description, "PrairieLearn (added by pl-tools)", date, date);
+            cal.download(`pl-tools-${label}`);
         })
     }
 })

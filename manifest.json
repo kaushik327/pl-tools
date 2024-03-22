@@ -9,6 +9,8 @@
   "content_scripts": [
     {
       "js": [
+        "deps/ics.deps.min.js",
+        "deps/ics.min.js",
         "content.js"
       ],
       "matches": [
