@@ -36,8 +36,8 @@ for (const a of links) {
             var third_column = td_list[2].innerText.trim();
             date_str = third_column.split(" until ")[1];
             if (date_str === undefined) {
-                // date = Infinity
-                continue;
+                date = Infinity
+                // continue;
             } else {
                 date_pieces = date_str.split(', ');
                 date = Date.parse(date_pieces[2] + " " + date_pieces[0]);
