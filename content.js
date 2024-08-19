@@ -3,7 +3,7 @@ const tables = document.getElementsByClassName("card-header");
 
 var table;
 for (const t of tables) {
-    if (t.childNodes[0].nodeValue.trim() == 'Courses') {
+    if (t.getElementsByTagName('h2')[0].innerText.trim() == 'Courses') {
         table = t.parentElement.getElementsByTagName('table')[0];
         break;
     }
@@ -31,7 +31,7 @@ for (const a of links) {
             var td_list = row.getElementsByTagName("td")
 
             var badge = td_list[0].getElementsByClassName("badge")[0];
-            badge.innerText = a.innerText.split(":")[0] + "\n" + badge.textContent.trim();
+            badge.innerText = a.innerText.split(":")[0].trim() + "\n" + badge.textContent.trim();
 
             var third_column = td_list[2].innerText.trim();
             date_str = third_column.split(" until ")[1];
@@ -49,39 +49,25 @@ for (const a of links) {
     page_promises.push(assignments);
 }
 
-// Todo table elements
-const todo_card = document.createElement("div");
-todo_card.className = "card mb-4";
-document.getElementById("content").append(todo_card);
 
-const todo_header = document.createElement("div");
-todo_header.className = "card-header bg-primary text-white d-flex align-items-center";
-todo_header.innerText = "To Do";
-todo_card.append(todo_header);
+const content = document.querySelector("div#content");
+content.innerHTML += `
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white d-flex align-items-center">To Do</div>
+    <table class="table table-sm table-hover table-striped">
+      <tbody id="todo-tbody"></tbody>
+    </table>
+  </div>
+  <div class="card mb-4">
+    <div class="card-header bg-primary text-white d-flex align-items-center">Done</div>
+    <table class="table table-sm table-hover table-striped">
+      <tbody id="done-tbody"></tbody>
+    </table>
+  </div>
+`;
 
-const todo_table = document.createElement("table");
-todo_table.className = "table table-sm table-hover table-striped";
-todo_card.append(todo_table);
-
-const todo_tbody = document.createElement("tbody");
-todo_table.append(todo_tbody);
-
-// Done table elements
-const done_card = document.createElement("div");
-done_card.className = "card mb-4";
-document.getElementById("content").append(done_card);
-
-const done_header = document.createElement("div");
-done_header.className = "card-header bg-primary text-white d-flex align-items-center";
-done_header.innerText = "Done";
-done_card.append(done_header);
-
-const done_table = document.createElement("table");
-done_table.className = "table table-sm table-hover table-striped";
-done_card.append(done_table);
-
-const done_tbody = document.createElement("tbody");
-done_table.append(done_tbody);
+const todo_tbody = document.getElementById("todo-tbody");
+const done_tbody = document.getElementById("done-tbody");
 
 const storage_promise = chrome.storage.sync.get({done: []});
 
