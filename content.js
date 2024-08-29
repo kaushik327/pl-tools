@@ -71,14 +71,12 @@ const done_tbody = document.getElementById("done-tbody");
 
 const storage_promise = chrome.storage.sync.get({done: []});
 
-Promise.all(page_promises.concat([storage_promise])).then((results) => {
-    
-    done_assignments = results.pop().done;
-    sorted_rows = results.flat();
-    sorted_rows.sort();
+Promise.all([storage_promise, ...page_promises]).then(([storage, ...pages]) => {
+    done_assignments = storage.done;
+    sorted_rows = pages.flat().sort();
 
     for (const info of sorted_rows) {
-        let [date, row, label] = info;
+        let [_date, row, label] = info;
 
         const btn = document.createElement("button");
         btn.className = "btn btn-xs my-0 align-text-bottom btn-outline-primary justify-content-center";
