@@ -3,7 +3,8 @@ const tables = document.getElementsByClassName("card-header");
 
 var table;
 for (const t of tables) {
-    if (t.getElementsByTagName('h2')[0].innerText.trim() == 'Courses') {
+    const table_name = t.getElementsByTagName('h2')[0].innerText.trim()
+    if (['Courses', 'Courses with student access'].includes(table_name)) {
         table = t.parentElement.getElementsByTagName('table')[0];
         break;
     }
